@@ -1,0 +1,4 @@
+interface:
+  display_name: "PHP Testing"
+  short_description: "PHPUnit, Pest, and PHP CI workflows"
+  default_prompt: "Use $php-testing-skill to analyze this PHP project, identify its test stack, and add or repair the right tests and CI setup."

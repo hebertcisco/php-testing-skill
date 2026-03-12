@@ -1,0 +1,42 @@
+# Gitignore for PHP Projects
+
+# Composer
+/vendor/
+/composer.lock
+/composer.phar
+
+# Environment files
+.env
+.env.backup
+.env.testing
+
+# IDE-specific files
+.idea/
+.vscode/
+*.iml
+
+# OS generated files
+.DS_Store
+Thumbs.db
+
+# Build artifacts
+/build/
+/dist/
+
+# Logs and cache
+/storage/*.log
+/bootstrap/cache/
+/storage/framework/cache/
+/storage/framework/sessions/
+/storage/framework/views/
+/storage/app/public/
+
+# PHPUnit
+/phpunit.xml
+/phpunit.xml.dist.bak
+
+# Custom skill files
+/README.md
+/agents/
+/references/
+/scripts/
