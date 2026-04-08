@@ -9,10 +9,11 @@ description: Create, repair, and optimize automated tests in PHP projects that u
 
 - Prefer the repository's current testing style, helpers, factories, fixtures, and naming before introducing new patterns.
 - Detect the active stack first:
-  - `composer.json` / `composer.lock`
+  - `composer.json` / `composer.lock` -- check PHPUnit and Pest major versions
   - `phpunit.xml` or `phpunit.xml.dist`
   - `tests/Pest.php`
   - `tests/`, `app/`, `src/`, `config/`, `.github/workflows/`
+- Identify the PHPUnit major version early -- it determines annotation vs attribute syntax, available assertions, and mock API surface. See `references/framework-detection.md` for version-specific rules.
 - Run `python3 ./scripts/survey_php_project.py <repo-root>` when the project is unfamiliar or large. Use the output to summarize frameworks, test tooling, app layout, configs, and CI.
 - Read only the references needed for the current task:
   - `references/framework-detection.md`
