@@ -43,8 +43,9 @@ description: Create, repair, and optimize automated tests in PHP projects that u
 - Create **unit tests** for pure helpers, value objects, services with mocked boundaries, repositories with isolated query behavior, custom exceptions, resources, and small framework adapters.
 - Create **feature/integration tests** for HTTP endpoints, console commands, jobs, notifications, policies, and database-backed flows.
 - Treat **E2E** in PHP pragmatically:
-  - If Laravel Dusk, Symfony Panther, Playwright, or another browser/E2E tool already exists, extend that stack.
+  - If Pest v4 browser testing (`pestphp/pest-plugin-browser`), Laravel Dusk, Symfony Panther, Playwright, or another browser/E2E tool already exists, extend that stack.
   - If no browser stack exists, implement end-to-end coverage as full application flow tests through HTTP, console, queues, or persistence boundaries using the repo's existing framework test harness.
+  - Pest v4 browser tests use Playwright under the hood and support device simulation, dark mode, smoke testing (`assertNoSmoke()`), and visual regression (`assertScreenshotMatches()`). Prefer this over Dusk for new Pest v4 projects unless Dusk is already established.
 - Do not add a new browser framework unless the user asks for it or the repo already supports it.
 
 ## App And Config Analysis
