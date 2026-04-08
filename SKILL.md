@@ -76,7 +76,17 @@ description: Create, repair, and optimize automated tests in PHP projects that u
   - create `tests/Pest.php`
   - keep existing PHPUnit tests working
   - convert incrementally, not as a large rewrite, unless explicitly requested
+  - consider `pestphp/pest-plugin-drift` for automated conversion of PHPUnit classes to Pest syntax
 - Never convert an existing suite wholesale just to satisfy a small feature request.
+
+## PHPUnit Version Awareness
+
+- PHPUnit 12+ **removed all docblock annotations** (`@covers`, `@dataProvider`, `@test`, etc.). Use PHP 8 attributes exclusively.
+- PHPUnit 10-11 support both annotations and attributes. Prefer attributes for new code but match existing convention.
+- PHPUnit 10 removed `withConsecutive()`. PHPUnit 13 provides `withParameterSetsInOrder()` and `withParameterSetsInAnyOrder()` as replacements. For PHPUnit 10-12, use chained `willReturnOnConsecutiveCalls()` or manual callback logic.
+- PHPUnit 12+ removed `getMockForAbstractClass()`, `getMockForTrait()`, and `createTestProxy()`. Use `createMock()` or `createStub()` instead.
+- PHPUnit 13 introduces sealed mock objects (`seal()`) and eight new array assertion methods.
+- Always check the project's PHPUnit major version before writing test metadata or mock code. Use `--migrate-configuration` to update `phpunit.xml` schema when upgrading.
 
 ## Regression Safety
 
