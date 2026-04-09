@@ -78,6 +78,24 @@ Output includes:
 
 Useful for large or unfamiliar codebases where manual inspection would be slow.
 
+## Supported Versions
+
+| PHPUnit | PHP | Status | Notes |
+|---------|-----|--------|-------|
+| **13** | >= 8.4.1 | Current stable | Sealed mocks, new array assertions, `withParameterSetsInOrder()` |
+| **12** | >= 8.3 | Active | Annotations removed -- attributes only. Mock API cleanup |
+| **11** | >= 8.2 | Bugfix ended | Annotations deprecated. Transitional version |
+| **10** | >= 8.1 | Bugfix ended | Event system. `withConsecutive()` removed |
+| **9** | >= 7.3 | EOL | Legacy support only |
+
+| Pest | PHPUnit Base | PHP | Key Additions |
+|------|-------------|-----|---------------|
+| **v4** | 12 | >= 8.3 | Browser testing (Playwright), smoke testing, visual regression, test sharding |
+| **v3** | 11 | >= 8.2 | Arch testing, type coverage, mutation testing |
+| **v2** | 10 | >= 8.1 | Arch presets, parallel testing |
+
+The skill detects installed versions from `composer.lock` and adapts its guidance (annotation vs attribute syntax, available mock APIs, sharding support, etc.).
+
 ## Agent Compatibility
 
 This skill is plain Markdown and YAML -- no model-specific binaries. It works with any agent that can read local files and run shell commands.
