@@ -53,7 +53,25 @@ def classify_app_dirs(path: Path) -> dict[str, int]:
     return dict(sorted(counters.items()))
 
 
-def detect_frameworks(composer: dict, root: Path) -> dict[str, object]:
+def resolve_installed_version(lock: dict, package_name: str) -> str | None:
+    """Look up the installed version of a package from composer.lock."""
+    for pkg in lock.get("packages", []) + lock.get("packages-dev", []):
+        if pkg.get("name") == package_name:
+            return pkg.get("version", "").lstrip("v")
+    return None
+
+
+def major_version(version_str: str | None) -> int | None:
+    if not version_str:
+        return None
+    parts = version_str.split(".")
+    try:
+        return int(parts[0])
+    except (ValueError, IndexError):
+        return None
+
+
+def detect_frameworks(composer: dict, lock: dict, root: Path) -> dict[str, object]:
     require = composer.get("require", {})
     require_dev = composer.get("require-dev", {})
     packages = {**require, **require_dev}
@@ -69,6 +87,11 @@ def detect_frameworks(composer: dict, root: Path) -> dict[str, object]:
     codeception = "codeception/codeception" in packages
     dusk = "laravel/dusk" in packages
     panther = "symfony/panther" in packages
+    pest_browser = "pestphp/pest-plugin-browser" in packages
+    pest_drift = "pestphp/pest-plugin-drift" in packages
+
+    phpunit_version = resolve_installed_version(lock, "phpunit/phpunit")
+    pest_version = resolve_installed_version(lock, "pestphp/pest")
 
     if pest and phpunit:
         runner = "mixed-pest-phpunit"
@@ -81,15 +104,30 @@ def detect_frameworks(composer: dict, root: Path) -> dict[str, object]:
 
     app_root = "app" if (root / "app").exists() else "src" if (root / "src").exists() else None
 
+    phpunit_major = major_version(phpunit_version)
+    uses_attributes_only = phpunit_major is not None and phpunit_major >= 12
+
     return {
         "primary_test_runner": runner,
         "uses_phpunit": phpunit,
         "uses_pest": pest,
+        "phpunit_version": phpunit_version,
+        "phpunit_major": phpunit_major,
+        "pest_version": pest_version,
+        "pest_major": major_version(pest_version),
+        "uses_attributes_only": uses_attributes_only,
         "is_laravel": laravel,
         "is_symfony": symfony,
         "has_codeception": codeception,
-        "has_browser_e2e": dusk or panther,
-        "browser_e2e_tools": [name for name, enabled in {"laravel-dusk": dusk, "symfony-panther": panther}.items() if enabled],
+        "has_browser_e2e": dusk or panther or pest_browser,
+        "browser_e2e_tools": [
+            name for name, enabled in {
+                "pest-plugin-browser": pest_browser,
+                "laravel-dusk": dusk,
+                "symfony-panther": panther,
+            }.items() if enabled
+        ],
+        "has_pest_drift": pest_drift,
         "app_root": app_root,
     }
 
@@ -163,7 +201,8 @@ def main() -> None:
 
     root = Path(args.root).resolve()
     composer = read_json(root / "composer.json")
-    frameworks = detect_frameworks(composer, root)
+    lock = read_json(root / "composer.lock")
+    frameworks = detect_frameworks(composer, lock, root)
 
     result = {
         "root": str(root),
