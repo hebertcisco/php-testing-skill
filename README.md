@@ -4,12 +4,14 @@ An agent skill that detects a PHP project's test stack and safely adds, repairs,
 
 ## Features
 
-- **Stack detection** -- identifies PHPUnit, Pest, or mixed setups before touching code
+- **Stack detection** -- identifies PHPUnit (8-13) and Pest (v2-v4) versions, mixed setups, and framework before touching code
+- **Version-aware authoring** -- uses attributes vs annotations, correct mock APIs, and version-appropriate patterns based on the detected PHPUnit major version
 - **App analysis** -- inspects `app/`, `src/`, `config/`, and CI files to understand project structure
-- **Test authoring** -- adds unit, feature, integration, and pragmatic E2E tests matching existing conventions
-- **PHPUnit tuning** -- optimizes `phpunit.xml` defaults and test execution speed
-- **CI workflows** -- creates or refines GitHub Actions pipelines for PHP test execution
-- **Project survey** -- includes a Python script that summarizes an unfamiliar repo's testing setup as JSON
+- **Test authoring** -- adds unit, feature, integration, and E2E tests matching existing conventions
+- **Pest v4 browser testing** -- supports Playwright-based browser tests, smoke testing, visual regression, and test sharding
+- **PHPUnit tuning** -- optimizes `phpunit.xml` defaults, execution speed, and configuration migration
+- **CI workflows** -- creates or refines GitHub Actions pipelines including sharded test matrix strategies
+- **Project survey** -- Python script that summarizes an unfamiliar repo's testing setup as JSON, including detected versions
 
 ## Quick Start
 
