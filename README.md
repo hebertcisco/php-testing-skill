@@ -68,6 +68,9 @@ python3 ./scripts/survey_php_project.py /path/to/php-project
 
 Output includes:
 - Detected frameworks and test runner (PHPUnit, Pest, mixed)
+- Installed PHPUnit and Pest versions (from `composer.lock`)
+- Whether the project requires attributes-only (PHPUnit 12+)
+- Browser E2E tools detected (`pest-plugin-browser`, Dusk, Panther)
 - App structure breakdown (`app/` or `src/` directory classification)
 - Test file inventory by suite (Unit, Feature, etc.)
 - Config files and CI workflow paths
