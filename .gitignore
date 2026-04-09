@@ -34,3 +34,4 @@ Thumbs.db
 # PHPUnit
 /phpunit.xml
 /phpunit.xml.dist.bak
+*.pyc
