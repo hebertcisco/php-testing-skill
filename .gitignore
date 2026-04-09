@@ -34,9 +34,3 @@ Thumbs.db
 # PHPUnit
 /phpunit.xml
 /phpunit.xml.dist.bak
-
-# Custom skill files
-/README.md
-/agents/
-/references/
-/scripts/
