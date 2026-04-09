@@ -23,6 +23,41 @@ Speed up feedback without breaking project assumptions.
 - Scope `<source>` or coverage include paths to app code only.
 - Add focused `<php>` env settings for speed.
 - Avoid loading unnecessary bootstrap code or providers when the framework allows lighter test kernels.
+- Use `--migrate-configuration` when upgrading PHPUnit to update the XML schema automatically.
+
+## PHPUnit Version-Specific Config
+
+- **PHPUnit 13:** New `requireSealedMockObjects` XML attribute to enforce sealed mocks globally. Use when adopting sealed mocks across the suite.
+- **PHPUnit 12+:** Ensure no docblock annotations remain -- they are silently ignored or cause errors.
+- **PHPUnit 10+:** Use `coverage: none` in CI and avoid loading coverage drivers unless needed. Use `<source>` instead of the deprecated `<filter>` element.
+- **PHPUnit 10+:** The `--display-deprecations`, `--display-notices`, and `--display-warnings` flags (and their XML counterparts) help catch issues early.
+
+## Test Sharding
+
+### Pest v4
+
+Pest v4 supports native test sharding via the `--shard` flag:
+
+```bash
+# Split across 4 shards
+./vendor/bin/pest --shard=1/4
+./vendor/bin/pest --shard=2/4
+./vendor/bin/pest --shard=3/4
+./vendor/bin/pest --shard=4/4
+
+# Combine with parallel execution
+./vendor/bin/pest --shard=1/4 --parallel
+```
+
+This integrates with CI matrix strategies for horizontal scaling. See `references/github-actions.md` for the CI template.
+
+### PHPUnit
+
+PHPUnit does not have built-in sharding. For large suites, use:
+
+- `--testsuite` to split by suite
+- Third-party tools like `brianium/paratest` for parallel execution
+- CI matrix splitting by test directory
 
 ## Laravel Notes
 
